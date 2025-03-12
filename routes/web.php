@@ -18,10 +18,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware('check.organizer')->group(function () {
-    Route::resource('events', EventController::class);
-    Route::post('events/{event}/detach/{user}', [EventController::class, 'detachUser'])->name('events.detach');
-    Route::post('events/{event}/sync', [EventController::class, 'syncUsers'])->name('events.sync');
-});
 
-require __DIR__.'/auth.php';
+// Route::resource('events', EventController::class)->middleware('check_organizer');
+Route::resource('events', EventController::class);
+
+// Route::middleware('check_organizer')->group(function () {
+//     Route::resource('events', EventController::class);
+//     Route::post('events/{event}/detach/{user}', [EventController::class, 'detachUser'])->name('events.detach');
+//     Route::post('events/{event}/sync', [EventController::class, 'syncUsers'])->name('events.sync');
+// });
+
+require __DIR__ . '/auth.php';

@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controller;
 
 class EventController extends Controller
 {
     public function __construct()
     {
-        // Apply authentication middleware to all methods
         $this->middleware('auth');
-        // Apply checkOrganizer middleware to all methods except index and show
-        $this->middleware('checkOrganizer')->except(['index', 'show']);
+        $this->middleware('check_organizer')->except(['index', 'show']);
     }
 
     public function index()

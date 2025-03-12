@@ -15,8 +15,8 @@ class Event extends Model
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_event')
-            ->withPivot('isOrganizer')
-            ->withTimestamps();
+                    ->withPivot('isOrganizer')
+                    ->withTimestamps();
     }
 
     public function organizers()

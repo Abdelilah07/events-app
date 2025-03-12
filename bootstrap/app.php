@@ -13,9 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'check.organizer' => CheckOrganizer::class,
+            'check.organizer' => CheckOrganizer::class
         ]);
-        dd($middleware->getAliases());
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

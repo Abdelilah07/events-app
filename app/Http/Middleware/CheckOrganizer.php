@@ -20,34 +20,23 @@ class CheckOrganizer
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Check if user is authenticated first
+        // Check authentication
         if (!Auth::check()) {
-            return redirect()
-                ->route('login')
-                ->with('error', 'Please login to access this resource')
-                ->setStatusCode(401);
+            return redirect()->route('login')->with('error', 'Please login to access this resource');
         }
 
-        // Get the authenticated user
         $user = Auth::user();
+        $eventId = $request->route('event');
 
-        // Get the event from route parameter
-        $event = $request->route('event');
-
-        // Handle case where event is not found or invalid
-        if (!$event instanceof Event) {
-            return redirect()
-                ->route('events.index')
-                ->with('error', 'Event not found')
-                ->setStatusCode(404);
+        // Fetch the event if it's an ID
+        $event = Event::find($eventId);
+        if (!$event) {
+            return redirect()->route('events.index')->with('error', 'Event not found');
         }
 
-        // Check if user is an organizer of the event
+        // Check if user is an organizer
         if (!$event->organizers()->where('user_id', $user->id)->exists()) {
-            return redirect()
-                ->route('events.index')
-                ->with('error', 'You are not authorized to perform this action')
-                ->setStatusCode(403);
+            return redirect()->route('events.index')->with('error', 'You are not authorized to perform this action');
         }
 
         return $next($request);
